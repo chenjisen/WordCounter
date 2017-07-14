@@ -1,0 +1,254 @@
+struct WordFrequency
+{
+	wchar_t word;
+	int frequency;
+	WordFrequency(wchar_t w, int f) :word(w), frequency(f) {}
+
+	friend bool operator<(const WordFrequency &x, const WordFrequency &y)
+	{
+		return x.frequency < y.frequency;
+	}
+};
+
+
+
+
+
+		/*wcout << '*' << endl
+			<< "Day:" << m.day << endl
+			<< "Time:" << m.time << endl
+			<< "Name:" << m.name << endl
+			<< "Text:" << m.text << endl;*/
+
+
+//setlocale(LC_ALL, "");
+/*
+	cout << s.length() << endl;
+	cout << "start" << endl;
+	for (int i = 0; i < s.length(); ++i) {
+		wcout << s[i] << endl;
+	}
+	cout << "end" << endl;
+*/
+
+/*	{ _T("哈"),_T("我"),_T("的"),_T("了"),_T("是"),_T("不"),_T("有"),_T("你"),_T("情"),_T("一'),
+	  _T("表"),_T("好"),_T("就"),_T("这"),_T("个"),_T("么"),_T("没"),_T("图"),_T("那"),_T("在'),
+	  _T("吧"),_T("也"),_T("片"),_T("说"),_T("会"),_T("看"),_T("可"),_T("要"),_T("还"),_T("都'),
+	  _T("得"),_T("学"),_T("去"),_T("人"),_T("过"),_T("能"),_T("觉"),_T("以"),_T("很"),_T("上'),
+	  _T("吗"),_T("来"),_T("到"),_T("对"),_T("想"),_T("点"),_T("什"),_T("多"),_T("呀"),_T("们')
+	  };*/
+
+	  /*
+enum MostFrequent {
+	哈, 我, 的, 了, 是, 不, 有, 你, 情, 一,
+	表, 好, 就, 这, 个, 么, 没, 图, 那, 在,
+	吧, 也, 片, 说, 会, 看, 可, 要, 还, 都,
+	得, 学, 去, 人, 过, 能, 觉, 以, 很, 上,
+	吗, 来, 到, 对, 想, 点, 什, 多, 呀, 们};*/
+
+
+			/*const wstring shortFPeakArray[] =
+		{ _T("哈"),_T("我"),_T("的"),_T("了"),_T("是"),_T("不"),_T("有"),_T("你"),_T("情"),_T("一"),
+			_T("表"),_T("好"),_T("就"),_T("这"),_T("个"),_T("么"),_T("没"),_T("图"),_T("那"),_T("在"),
+			_T("吧"),_T("也"),_T("片"),_T("说"),_T("会"),_T("看"),_T("可"),_T("要"),_T("还"),_T("都"),
+			_T("得"),_T("学"),_T("去"),_T("人"),_T("过"),_T("能"),_T("觉"),_T("以"),_T("很"),_T("上"),
+			_T("吗"),_T("来"),_T("到"),_T("对"),_T("想"),_T("点"),_T("什"),_T("多"),_T("呀"),_T("们") };
+		for (int i = 0; i < ShortFPeakCount; ++i) ChPeak[shortFPeakArray[i]] = i;
+		*/
+
+
+		
+	map<wstring, int> newCount(const vector<message>& vm, const map<wstring, int>& FPeakShort)
+	{
+		for (message m : vm) {
+			wstring text = m.text;
+
+			for (auto ch_iter = text.begin();
+				ch_iter != text.end() + (shortLength - 1);
+				++ch_iter) {
+				int pos = ch_iter - text.begin();
+
+				auto findShort = FPeakShort.find(text.substr(pos, shortLength));
+				if (findShort != FPeakShort.end()) {  //找到高频字
+
+					//防止越界			
+					if (text.length() >= shortLength + 1) {
+						if (ch_iter >= text.begin() + shortLength)
+							++(mapCount[Left][findShort->second])[*(ch_iter - 1)];
+						if (ch_iter <= text.end() - 1 - shortLength)
+							++(mapCount[Right][findShort->second])[*(ch_iter + 1)];
+					}
+
+				}
+			}
+		}
+
+
+		vector<pair<wstring, int>> vecPair;
+		vecPair.reserve(WordNumber[longLength]);
+
+		for (auto chPair : FPeakShort) {
+			for (WordSide side : {Left, Right}) {
+				for (auto chSidePair : mapCount[side][chPair.second]) {
+						wstring longString;
+						if (side == Left)
+							longString = wstring({ chSidePair.first }) + chPair.first;
+						else
+							longString = chPair.first + wstring({ chSidePair.first });
+
+						vecPair.push_back(make_pair(longString, chSidePair.second));
+				}
+			}
+		}
+
+		int mapsize = min(WordNumber[longLength], vecPair.size());
+
+		partial_sort(vecPair.begin(), vecPair.begin() + mapsize, vecPair.end(), cmpPair<wstring>);
+
+		map<wstring, int> FPeakLong;
+		int LongMapsize = 0;
+		for (auto p = vecPair.begin(); p != vecPair.begin() + mapsize; ++p) {
+
+			if (FPeakLong.find(p->first) == FPeakLong.end()) {
+				FPeakLong[p->first] = LongMapsize;
+				++LongMapsize;
+			}
+
+		}
+
+		wcout << p->first << '\t' << p->second << endl;
+		return FPeakLong;
+
+	}
+
+		static vector<pair<wchar_t, int>> ChCount2(const vector<message>& vm)
+	{
+		vector<int> vecF(65535);
+		vector<pair<wchar_t, int>> vecFPeak;
+		vecFPeak.reserve(65535);
+
+		for (message m : vm) {
+			for (wchar_t ch : m.text) {
+				++vecF[(int)ch];
+			}
+		}
+
+		for (size_t i = 0; i < vecF.size(); ++i) {
+				vecFPeak.push_back(make_pair(i, vecF[i]));
+		}
+
+		sortTop(vecFPeak, WordNumber[1]);
+		return vecFPeak;
+	}
+	static vector<pair<wchar_t, int>> ChCount3(const vector<message>& vm)
+	{
+		map<wchar_t, int> mapF;
+		vector<pair<wchar_t, int>> vecF;
+		vecF.reserve(WordNumber[1]);
+
+		for (message m : vm) {
+			for (wchar_t ch : m.text) {
+				++mapF[ch];
+			}
+		}
+
+		for (auto p:mapF) {
+			vecF.push_back(p);
+		}
+
+		sortTop(vecF, WordNumber[1]);
+		return vecF;
+	}
+	static vector<pair<wchar_t, int>> ChCount4(const vector<message>& vm)
+	{
+		map<wchar_t, int> mapF;
+		vector<pair<wchar_t, int>> vecF;
+		vecF.reserve(WordNumber[1]);
+
+		for (message m : vm) {
+			for (wchar_t ch : m.text) {
+				++mapF[ch];
+			}
+		}
+
+		for (auto p : mapF) {
+			if (p.second>LimitCount[1])
+				vecF.push_back(p);
+		}
+
+		sortTop(vecF, WordNumber[1]);
+		return vecF;
+	}
+
+
+
+		vector<message> vm;
+	message m;
+	wstring s = _T("");
+	static wstring state = _T("");
+
+	while (true) {
+		m.day = m.time = m.name = m.text = _T("");
+
+		//第一条为时间、昵称，如：yyyy-mm-dd (h)h:mm:ss 甲
+		if (!message::isInfo(s)) {
+			if (!getline(in, s))
+				return vm;
+			if (!message::isInfo(s))
+				continue;
+		}
+		else {
+			m.GetInfo(s);
+			if (m.day == EndDate)
+				return vm;
+			if (m.day != state) {
+				state = m.day;
+				wcout << state << endl;
+			}
+		}
+
+		//if (!getline(in, s)) break;
+		//if (isEmpty(s)) continue; //处理空行
+
+		//第二条为消息
+		while (true) {
+			if (!getline(in, s))
+				return vm;
+			if (message::isInfo(s))
+				break;
+			m.text += s;
+		}
+		vm.push_back(m);
+	}
+
+	//int LimitCount[MaxLength + 1] = { 0, sizeMsg / 200, sizeMsg / 500, 5, 5,5};  // 200, 50, 1
+//标准测试：/70, /200
+
+/*
+static map<wstring, int> newCount(const vector<Message>& vm)
+{
+map<wstring, int> ChPeak;
+map<wchar_t, int> tempmap;
+
+for (Message m : vm) {
+	wstring text = m.text;
+	for (auto ch_iter = text.begin(); ch_iter != text.end(); ++ch_iter) ++tempmap[*ch_iter];
+}
+map<wstring, int> FPeak;
+for (auto chPair : tempmap) 
+if (chPair.second > LimitCount) FPeakLong[chPair.first] = ;
+
+
+vector<pair<wchar_t, int>> vecPair;
+for (size_t i = 0; i < vi.size(); ++i) 
+if (vi[i] > LimitCount)  vecPair.push_back(make_pair(i, vi[i]));
+
+
+int mapsize = min(WordNumber[1], vecPair.size());
+partial_sort(vecPair.begin(), vecPair.begin() + mapsize, vecPair.end(), CmpPair<wchar_t>);
+
+for (auto p = vecPair.begin(); p < vecPair.begin() + mapsize; ++p) 
+ChPeak.insert(make_pair(wstring({ p->first }), p - vecPair.begin()));
+
+
+*/
