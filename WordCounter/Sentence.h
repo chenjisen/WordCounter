@@ -11,7 +11,7 @@ class Sentence
 public:
 	wstring text;
 
-	static vector<Sentence> GetVec(wifstream& in, const unsigned int EndNum = 0);
+	static vector<Sentence> GetVec(wifstream& in, int& charNum, const unsigned int& MaxSize = UINT_MAX);
 
 private:
 

@@ -26,21 +26,9 @@ void Poem::clear()
 bool Poem::isTitle(const wstring & str)
 {
 	wstring s = str;
-	/*
-	if (s.length() <= 19 || s[0] != _T('2')) {
-		return false;
-	}
-	else {
-		//处理时间格式问题 (h)h:mm:ss
-		if (s[12] == _T(':'))
-			s.insert(11, _T("0"));
-		wstring day, time, name;
-		day.assign(s, 0, 10);
-		bool isDay = day[4] == _T('-') && day[7] == _T('-');
-		time.assign(s, 11, 8);
-		bool isTime = time[2] == _T(':') && time[5] == _T(':');
-		return isDay && isTime;
-	}*/
+	
+	if (s.length() <= 3) return false;
+	if (s.substr(0, 3) != _T("标题：")) return false;
 
 	return true;
 }

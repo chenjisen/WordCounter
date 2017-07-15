@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+    <Text Include="Useless2.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -34,9 +35,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Sentence.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Text.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
@@ -60,12 +58,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Sentence.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

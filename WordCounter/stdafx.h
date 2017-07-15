@@ -26,7 +26,6 @@
 #include "Message.h"
 #include "Poem.h"
 #include "Sentence.h"
-#include "Text.h"
 #include "Timer.h"
 
 

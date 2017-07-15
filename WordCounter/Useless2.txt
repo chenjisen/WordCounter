@@ -1,0 +1,58 @@
+	/*
+	long long fileSize = GetFileSize(in);
+	cout << "文件大小:" << fileSize << "Bytes" << endl;
+	out << _T("文件大小:") << fileSize << "Bytes" << endl;
+
+	*/
+
+	long long GetFileSize(wifstream& in)
+{
+	long long fileSize = in.tellg();
+	if (fileSize < 0) {
+		in = OpenFile<wifstream>(ifName);
+		in.seekg(0, ios::end);
+		fileSize = in.tellg();
+	}
+	return fileSize;
+}
+
+
+
+
+//Text.h
+#pragma once
+/*
+
+using std::wstring;
+using std::vector;
+
+class Text
+{
+public:
+	wstring text;
+
+
+	static vector<Text> GetVec();
+
+protected:
+
+	virtual void GetText(const wstring& str) = 0;
+
+	virtual void clear() = 0;
+
+
+};
+
+*/
+
+/*void GetLimitCount(int n, long long fileSize)
+{
+	for (int& an : LimitCount) an = 2;
+	//LimitCount[i] = max(LLToInt(fileSize / (long long)(2000 * pow(sqrt(10), n))), 2);
+	//n=1:(fileSize / 6000) n=2:(fileSize / 20000) n=3:(fileSize / 60000) n=4:(fileSize / 200000)
+}*/
+
+int LLToInt(long long n)
+{
+	return (int)min(n, (long long)INT_MAX);
+}

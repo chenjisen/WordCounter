@@ -54,15 +54,15 @@ bool Message::isInfo(const wstring& str)
 	}
 }
 
-vector<Message> Message::GetVec(wifstream& in, const wstring& EndDate = _T(""))
+vector<Message> Message::GetVec(wifstream& in, int& charNum, const unsigned int& MaxSize)
 {
-	vector<Message> vm;
+	vector<Message> vecMsg;
 	Message m;
 	wstring text, state, str; //默认为空
-
+	charNum = 0;
 							  //第一条消息
 	do
-		if (!getline(in, str)) return vm;
+		if (!getline(in, str)) return vecMsg;
 	while (!Message::isInfo(str));
 
 
@@ -80,9 +80,9 @@ vector<Message> Message::GetVec(wifstream& in, const wstring& EndDate = _T(""))
 			system("pause");
 		}
 
-		//判断结束日期
-		if (m.day == EndDate)
-			return vm;
+		//判断是否达到最大数量
+		if (vecMsg.size() >= MaxSize)
+			return vecMsg;
 
 		//输出状态
 		if (m.day != state) {
@@ -97,14 +97,16 @@ vector<Message> Message::GetVec(wifstream& in, const wstring& EndDate = _T(""))
 			//读取字符串，循环结束条件
 			if (!getline(in, str)) {
 				m.GetText(text);
-				vm.push_back(m);
-				return vm;
+				charNum += text.length();
+				vecMsg.push_back(m);
+				return vecMsg;
 			}
 		} while (!Message::isInfo(str));
 
 		//获得消息文本
 		m.GetText(text);
-		vm.push_back(m);
+		charNum += text.length();
+		vecMsg.push_back(m);
 		text.clear();
 
 	}

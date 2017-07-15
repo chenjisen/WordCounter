@@ -1,7 +1,9 @@
 #pragma once
 
-
 using std::wstring;
+using std::vector;
+using std::wifstream;
+
 
 class Message
 {
@@ -13,7 +15,7 @@ public:
 	wstring name;
 	wstring text;
 
-	static std::vector<Message> GetVec(std::wifstream& in, const wstring& EndDate);
+	static vector<Message> GetVec(wifstream& in, int& charNum, const unsigned int& MaxSize = UINT_MAX);
 
 private:
 
