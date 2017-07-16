@@ -1,6 +1,5 @@
 #pragma once
 
-#include <fstream>
 using namespace std;
 
 wifstream OpenInFile(const string& WorkingPath, const string& FileName)
@@ -36,3 +35,4 @@ void GetFPeak(vector<pair<wstring, int>>& vecFPeak, const vector<T>& vecMsg, int
 	else
 		vecFPeak = Frequency::Count<TextType>(vecMsg, LimitCount[i], FPeakShort, i);
 }
+

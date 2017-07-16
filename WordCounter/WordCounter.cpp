@@ -1,5 +1,5 @@
-#include "stdafx.h"
-
+ï»¿#include "stdafx.h"
+#include "WordCounter.h"
 
 const unsigned int MaxLength = 5;
 const vector<unsigned int> Frequency::WordNumber(MaxLength + 1, 1000);
@@ -9,13 +9,13 @@ const unsigned int MaxSize = UINT_MAX;
 typedef Sentence TextType;
 
 const string WorkingPath = "d:\\WordCounter\\";
-const string FileName = "¹Ë³Ç";
+const string FileName = "é¡¾åŸ";
 
 
 int main()
 {
-	
-	//´ò¿ªÎÄ¼ş£¬×¢Òâ£ºÊ¹ÓÃANSI£»Ç°Ãæ¼¸ĞĞÉ¾µô
+
+	//æ‰“å¼€æ–‡ä»¶ï¼Œæ³¨æ„ï¼šä½¿ç”¨ANSIï¼›å‰é¢å‡ è¡Œåˆ æ‰
 	wifstream in;
 	wofstream out;
 	try {
@@ -28,55 +28,56 @@ int main()
 		return 1;
 	}
 
-	//¶ÁÈ¡ÎÄ¼ş
+	//è¯»å–æ–‡ä»¶
 	vector<TextType> vecText;
 	int charNum;
 
 	TimingBegin;
 	{
-		cout << "ÕıÔÚ¶ÁÈ¡ÏûÏ¢¼ÇÂ¼¡­¡­\n";
+		cout << "æ­£åœ¨è¯»å–æ¶ˆæ¯è®°å½•â€¦â€¦\n";
 		vecText = TextType::GetVec(in, charNum, MaxSize);
-		cout << "ÏûÏ¢ÊıÁ¿£º" << size(vecText) << endl;
-		out << _T("ÏûÏ¢ÊıÁ¿£º") << size(vecText) << endl;
-		cout << "×ÖÊı:" << charNum << endl;
-		out << _T("×ÖÊı:") << charNum << endl;
+		out << _T("æ¶ˆæ¯æ•°é‡ï¼š") << size(vecText) << endl;
+		out << _T("å­—æ•°:") << charNum << endl;
 
 		//for (auto m : vecText) wcout << m.text << endl;
-	} 
+	}
 	TimingEnd;
 
 	in.close();
-	
-	//Í³¼ÆÆµÂÊ
+
+	//ç»Ÿè®¡é¢‘ç‡
 	vector<pair<wstring, int>> vecF;
 	for (int i = 1; i <= MaxLength; ++i) {
-		cout << "ÕıÔÚÍ³¼Æ³öÏÖÆµÂÊ½Ï¸ßµÄ" << i << "×Ö´Ê¡­¡­\n";
+		cout << "æ­£åœ¨ç»Ÿè®¡å‡ºç°é¢‘ç‡è¾ƒé«˜çš„" << i << "å­—è¯â€¦â€¦\n";
 
 		TimingBegin;
 		{
-			
+
 			GetFPeak<TextType>(vecF, vecText, i);
 			if (!vecF.empty()) {
-				out << _T("³öÏÖÆµÂÊ½Ï¸ßµÄ") << i << _T("×Ö´Ê£º\n");
+				out << _T("å‡ºç°é¢‘ç‡è¾ƒé«˜çš„") << i << _T("å­—è¯ï¼š\n");
 				for (auto p : vecF) {
-					wcout << p.first << '\t' << p.second << endl;
-					out << p.first << '\t' << p.second << endl;
+					wcout << p.first << '\t' << p.second 
+						<< '\t' << fixed << setprecision(3) 
+						<< (double)p.second * 1000 / charNum << _T("â€°\n");
+					out << p.first << '\t' << p.second
+						<< '\t' << fixed << setprecision(3)
+						<< (double)p.second * 1000 / charNum << _T("â€°\n");
 				}
 			}
 			else {
-				cout <<"ÕÒ²»µ½ÆµÂÊ½Ï¸ßµÄ" << i << "×Ö´Ê£¡\n";
-				out << _T("ÕÒ²»µ½ÆµÂÊ½Ï¸ßµÄ") << i << _T("×Ö´Ê£¡\n");
+				cout << "æ‰¾ä¸åˆ°é¢‘ç‡è¾ƒé«˜çš„" << i << "å­—è¯ï¼\n";
+				out << _T("æ‰¾ä¸åˆ°é¢‘ç‡è¾ƒé«˜çš„") << i << _T("å­—è¯ï¼\n");
 				break;
 			}
-			
+
 		}
 		TimingEnd;
 
-		system("pause");
 	}
 	out.close();
 
-	
+
 	system("pause");
 	return 0;
 }
