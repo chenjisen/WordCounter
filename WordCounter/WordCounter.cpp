@@ -1,12 +1,12 @@
 #include "stdafx.h"
-#include "WordCounter.h"
 
-const unsigned int MaxLength = 20;
+
+const unsigned int MaxLength = 5;
 const vector<unsigned int> Frequency::WordNumber(MaxLength + 1, 1000);
 const vector<int> LimitCount(MaxLength + 1, 4);
-//const unsigned int MaxSize = UINT_MAX;
-const unsigned int MaxSize = 10;
-typedef Message TextType;
+const unsigned int MaxSize = UINT_MAX;
+//const unsigned int MaxSize = 1000;
+typedef Sentence TextType;
 
 const string WorkingPath = "d:\\WordCounter\\";
 const string FileName = "顾城";
@@ -51,12 +51,13 @@ int main()
 	vector<pair<wstring, int>> vecF;
 	for (int i = 1; i <= MaxLength; ++i) {
 		cout << "正在统计出现频率较高的" << i << "字词……\n";
-		out << _T("正在统计出现频率较高的") << i << _T("字词……\n");
+
 		TimingBegin;
 		{
 			
 			GetFPeak<TextType>(vecF, vecText, i);
 			if (!vecF.empty()) {
+				out << _T("出现频率较高的") << i << _T("字词：\n");
 				for (auto p : vecF) {
 					wcout << p.first << '\t' << p.second << endl;
 					out << p.first << '\t' << p.second << endl;

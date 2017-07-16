@@ -25,6 +25,6 @@
 #include "Poem.h"
 #include "Sentence.h"
 #include "Timer.h"
-
+#include "WordCounter.h"
 
 using namespace std;

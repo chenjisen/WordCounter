@@ -13,24 +13,25 @@ void Sentence::clear()
 vector<Sentence> Sentence::GetVec(wifstream& in, int& charNum, const unsigned int& MaxSize)
 {
 
-	vector<Sentence> vs;
+	vector<Sentence> vecSent;
 	Sentence sent;
 	wstring str; //默认为空
 	charNum = 0;
 
-	while (!getline(in, str)) {
+	while (getline(in, str)) {
+
 
 		//判断结束数量
 
 		sent.GetText(str);
 		charNum += str.length();
-		vs.push_back(sent);
+		vecSent.push_back(sent);
 
-		if (vs.size() >= MaxSize)
-			return vs;
+		if (vecSent.size() >= MaxSize)
+			return vecSent;
 	}
 
-	return vs;
+	return vecSent;
 }
 
 
