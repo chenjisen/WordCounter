@@ -34,6 +34,12 @@ public:
 	static vector<pair<wstring, int>> Frequency::ChCount
 	(const vector<T>& vm, const int LimitCount);
 
+	template<class T>
+	static vector<pair<int, int>> ANSICount(const vector<T>& vm);
+
+	template<class T>
+	static vector<pair<int, int>> ANSICount(const vector<T>& vm, int LimitCount);
+
 
 	static map<wstring, int> VecToMapNo(const vector<pair<wchar_t, int>>& vec);
 	static map<wstring, int> VecToMapNo(const vector<pair<wstring, int>>& vec);
@@ -117,3 +123,24 @@ static vector<pair<wstring, int>> Frequency::ChCount(const vector<T>& vm, int Li
 	return vecFPeak;
 }
 
+template<class T>
+static vector<pair<int, int>> Frequency::ANSICount(const vector<T>& vm)
+{
+	vector<int> vecF(65535);
+	vector<pair<int, int>> vecFPeak;
+	vecFPeak.reserve(65535);
+
+	for (auto m : vm) {
+		for (wchar_t ch : m.text) {
+			++vecF[(int)ch];  
+		}
+	}
+
+	for (size_t i = 0; i < vecF.size(); ++i) {
+		if (vecF[i] > 0) {   //提高效率
+			vecFPeak.push_back(make_pair(i, vecF[i]));
+		}
+	}
+
+	return vecFPeak;
+}

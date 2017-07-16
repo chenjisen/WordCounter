@@ -4,7 +4,9 @@
 const unsigned int MaxLength = 5;
 const vector<unsigned int> Frequency::WordNumber(MaxLength + 1, 1000);
 const vector<int> LimitCount(MaxLength + 1, 4);
-const unsigned int MaxSize = UINT_MAX;
+
+const int LimitPrintNumber = 100;
+//const unsigned int MaxSize = UINT_MAX;
 //const unsigned int MaxSize = 1000;
 typedef Sentence TextType;
 
@@ -27,7 +29,19 @@ int main()
 		system("pause");
 		return 1;
 	}
-
+	
+	//输出相关信息
+	out << "Time : " << GetStrTime() << endl
+		<< Rule << endl
+		<< "MaxLength = " << MaxLength << endl
+		<< "WordNumber = " << Frequency::WordNumber[0] << endl
+		<< "LimitCount = " << LimitCount[0] << endl
+		<< "LimitPrintNumber = " << LimitPrintNumber << endl
+		<< "TextType : " << typeid(TextType).name() << endl
+		<< "WorkingPath : " << _w(WorkingPath) << endl 
+		<< Rule << endl
+		<< "FileName : " << _w(FileName) << endl;
+	
 	//读取文件
 	vector<TextType> vecText;
 	int charNum;
@@ -35,15 +49,16 @@ int main()
 	TimingBegin;
 	{
 		cout << "正在读取消息记录……\n";
-		vecText = TextType::GetVec(in, charNum, MaxSize);
-		out << _T("消息数量：") << size(vecText) << endl;
-		out << _T("字数:") << charNum << endl;
+		vecText = TextType::GetVec(in, charNum);
+		//out << _T("消息数量：") << size(vecText) << endl;
+		out << _T("CharNum : ") << charNum << endl;
 
 		//for (auto m : vecText) wcout << m.text << endl;
 	}
 	TimingEnd;
 
 	in.close();
+
 
 	//统计频率
 	vector<pair<wstring, int>> vecF;
@@ -55,19 +70,14 @@ int main()
 
 			GetFPeak<TextType>(vecF, vecText, i);
 			if (!vecF.empty()) {
-				out << _T("出现频率较高的") << i << _T("字词：\n");
-				for (auto p : vecF) {
-					wcout << p.first << '\t' << p.second 
-						<< '\t' << fixed << setprecision(3) 
-						<< (double)p.second * 1000 / charNum << _T("‰\n");
-					out << p.first << '\t' << p.second
-						<< '\t' << fixed << setprecision(3)
-						<< (double)p.second * 1000 / charNum << _T("‰\n");
-				}
+				out << Rule << endl
+					<< _T("出现频率较高的") << i << _T("字词：") << endl << endl;
+				PrintOutcome(vecF, LimitPrintNumber, charNum, out, wcout);
+
 			}
 			else {
 				cout << "找不到频率较高的" << i << "字词！\n";
-				out << _T("找不到频率较高的") << i << _T("字词！\n");
+				out << _T("找不到频率较高的") << i << _T("字词！") <<endl;
 				break;
 			}
 
@@ -75,10 +85,11 @@ int main()
 		TimingEnd;
 
 	}
+
 	out.close();
 
 
-	system("pause");
+	//system("pause");
 	return 0;
 }
 

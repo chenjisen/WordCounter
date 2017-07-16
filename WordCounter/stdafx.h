@@ -16,11 +16,14 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <Windows.h>
+
 #include <vector>
 #include <string>
 #include <algorithm>
 #include <map>
 #include <set>
+
 #include "Frequency.h"
 #include "Message.h"
 #include "Poem.h"
